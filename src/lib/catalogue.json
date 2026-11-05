@@ -1,0 +1,6291 @@
+{
+  "organisations": {
+    "label": "Organisations",
+    "writable": false,
+    "global": true,
+    "fields": {
+      "name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "region": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "timezone": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "status": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "prohibit_self_approval": {
+        "type": "bool",
+        "required": true,
+        "ref": null,
+        "default": "false"
+      }
+    }
+  },
+  "users": {
+    "label": "Users",
+    "writable": false,
+    "global": true,
+    "fields": {
+      "identity_subject": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "email": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "display_name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "status": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "memberships": {
+    "label": "Memberships",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "user_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "users"
+      },
+      "status": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      },
+      "role": {
+        "type": "text",
+        "required": true,
+        "ref": null,
+        "default": "'viewer'"
+      }
+    }
+  },
+  "roles": {
+    "label": "Roles",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "system_key": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "permissions": {
+    "label": "Permissions",
+    "writable": false,
+    "global": true,
+    "fields": {
+      "key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "description": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "role_permissions": {
+    "label": "Role Permissions",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "role_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "roles"
+      },
+      "permission_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "permissions"
+      }
+    }
+  },
+  "membership_roles": {
+    "label": "Membership Roles",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "membership_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "memberships"
+      },
+      "role_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "roles"
+      }
+    }
+  },
+  "brand_grants": {
+    "label": "Brand Grants",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "membership_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "memberships"
+      },
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "role_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "roles"
+      }
+    }
+  },
+  "audit_events": {
+    "label": "Audit Events",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "actor_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "users"
+      },
+      "action": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "resource_type": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "resource_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": null
+      },
+      "metadata": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "correlation_id": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "privacy_requests": {
+    "label": "Privacy Requests",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "subject_type": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "subject_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": null
+      },
+      "request_type": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "status": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "verified_by": {
+        "type": "uuid",
+        "required": false,
+        "ref": "users"
+      },
+      "due_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      },
+      "completed_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "legal_holds": {
+    "label": "Legal Holds",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "resource_type": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "resource_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": null
+      },
+      "reason": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "authorised_by": {
+        "type": "uuid",
+        "required": true,
+        "ref": "users"
+      },
+      "expires_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "deletion_requests": {
+    "label": "Deletion Requests",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "requested_by": {
+        "type": "uuid",
+        "required": true,
+        "ref": "users"
+      },
+      "status": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "execute_after": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "cancelled_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "brands": {
+    "label": "Brands",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "timezone": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "locale": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "industry": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "website": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "brand_kits": {
+    "label": "Brand Kits",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "current_revision_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "brand_kit_revisions"
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "brand_kit_revisions": {
+    "label": "Brand Kit Revisions",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "kit_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brand_kits"
+      },
+      "revision_no": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "tokens": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "guidelines": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "created_by": {
+        "type": "uuid",
+        "required": true,
+        "ref": "users"
+      }
+    }
+  },
+  "brand_kit_assets": {
+    "label": "Brand Kit Assets",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "kit_revision_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brand_kit_revisions"
+      },
+      "asset_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "assets"
+      },
+      "role": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "personas": {
+    "label": "Personas",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "description": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "segments": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "campaigns": {
+    "label": "Campaigns",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "objective": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "starts_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      },
+      "ends_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      },
+      "budget_minor": {
+        "type": "bigint",
+        "required": false,
+        "ref": null
+      },
+      "currency": {
+        "type": "char(3)",
+        "required": false,
+        "ref": null
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "campaign_personas": {
+    "label": "Campaign Personas",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "campaign_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "campaigns"
+      },
+      "persona_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "personas"
+      }
+    }
+  },
+  "campaign_tasks": {
+    "label": "Campaign Tasks",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "campaign_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "campaigns"
+      },
+      "title": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "assignee_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "users"
+      },
+      "due_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      },
+      "status": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "assets": {
+    "label": "Assets",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "object_key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "mime": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "size_bytes": {
+        "type": "bigint",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "metadata": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "alt_text": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "asset_licences": {
+    "label": "Asset Licences",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "asset_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "assets"
+      },
+      "licence_type": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "evidence_key": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "permitted_uses": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "expires_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "tags": {
+    "label": "Tags",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "asset_tags": {
+    "label": "Asset Tags",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "asset_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "assets"
+      },
+      "tag_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "tags"
+      }
+    }
+  },
+  "upload_sessions": {
+    "label": "Upload Sessions",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "asset_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "assets"
+      },
+      "object_key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "expected_size": {
+        "type": "bigint",
+        "required": true,
+        "ref": null
+      },
+      "checksum": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "provider_upload_id": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "expires_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "designs": {
+    "label": "Designs",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "current_revision_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "design_revisions"
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "design_revisions": {
+    "label": "Design Revisions",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "design_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "designs"
+      },
+      "revision_no": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "scene_key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "scene_hash": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "schema_version": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "renderer_version": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "created_by": {
+        "type": "uuid",
+        "required": true,
+        "ref": "users"
+      },
+      "scene": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null,
+        "default": "'{}'::jsonb"
+      }
+    }
+  },
+  "design_revision_assets": {
+    "label": "Design Revision Assets",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "design_revision_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "design_revisions"
+      },
+      "asset_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "assets"
+      }
+    }
+  },
+  "design_updates": {
+    "label": "Design Updates",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "design_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "designs"
+      },
+      "sequence": {
+        "type": "bigint",
+        "required": true,
+        "ref": null
+      },
+      "update_key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "actor_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "users"
+      }
+    }
+  },
+  "templates": {
+    "label": "Templates",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "design_revision_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "design_revisions"
+      },
+      "tags": {
+        "type": "text[]",
+        "required": true,
+        "ref": null
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "render_jobs": {
+    "label": "Render Jobs",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "design_revision_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "design_revisions"
+      },
+      "preset_id": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "format": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "dedupe_hash": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "error_code": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "started_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      },
+      "finished_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "asset_renditions": {
+    "label": "Asset Renditions",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "asset_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "assets"
+      },
+      "render_job_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "render_jobs"
+      },
+      "object_key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "width": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "height": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "duration_ms": {
+        "type": "bigint",
+        "required": false,
+        "ref": null
+      },
+      "format": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "comments": {
+    "label": "Comments",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "author_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "users"
+      },
+      "resource_type": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "resource_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": null
+      },
+      "body": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "resolved_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "ai_jobs": {
+    "label": "Ai Jobs",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "task": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "provider": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "input_manifest": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "output_asset_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "assets"
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "cost_limit_minor": {
+        "type": "bigint",
+        "required": true,
+        "ref": null
+      },
+      "actual_cost_minor": {
+        "type": "bigint",
+        "required": false,
+        "ref": null
+      },
+      "provenance": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "providers": {
+    "label": "Providers",
+    "writable": false,
+    "global": true,
+    "fields": {
+      "key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "api_version": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "capability_schema": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "evidence_url": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "reviewed_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "social_connections": {
+    "label": "Social Connections",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "provider_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "providers"
+      },
+      "connected_by": {
+        "type": "uuid",
+        "required": true,
+        "ref": "users"
+      },
+      "external_subject": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "status": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "social_accounts": {
+    "label": "Social Accounts",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "connection_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "social_connections"
+      },
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "provider_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "providers"
+      },
+      "external_id": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "account_type": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "display_name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "status": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "provider_key": {
+        "type": "text",
+        "required": true,
+        "ref": null,
+        "default": "'export'"
+      },
+      "publish_enabled": {
+        "type": "bool",
+        "required": true,
+        "ref": null,
+        "default": "false"
+      }
+    }
+  },
+  "account_capabilities": {
+    "label": "Account Capabilities",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "account_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "social_accounts"
+      },
+      "format": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "config": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "evaluated_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "expires_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "content_posts": {
+    "label": "Content Posts",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "campaign_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "campaigns"
+      },
+      "title": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "locale": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "current_revision_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "content_revisions"
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "content_revisions": {
+    "label": "Content Revisions",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "post_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "content_posts"
+      },
+      "revision_no": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "digest": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "created_by": {
+        "type": "uuid",
+        "required": true,
+        "ref": "users"
+      },
+      "caption": {
+        "type": "text",
+        "required": true,
+        "ref": null,
+        "default": "''"
+      },
+      "scene": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null,
+        "default": "'{}'::jsonb"
+      },
+      "approved_by": {
+        "type": "uuid",
+        "required": false,
+        "ref": "users",
+        "default": null
+      },
+      "approved_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null,
+        "default": null
+      },
+      "media_asset_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "assets",
+        "default": null
+      },
+      "script_revision_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "script_revisions",
+        "default": null
+      }
+    }
+  },
+  "content_variants": {
+    "label": "Content Variants",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "revision_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "content_revisions"
+      },
+      "provider_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "providers"
+      },
+      "format": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "caption": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "alt_text": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "settings": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "variant_media": {
+    "label": "Variant Media",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "variant_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "content_variants"
+      },
+      "rendition_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "asset_renditions"
+      },
+      "position": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "approval_policies": {
+    "label": "Approval Policies",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "steps": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "prohibit_self_approval": {
+        "type": "bool",
+        "required": true,
+        "ref": null
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "approval_requests": {
+    "label": "Approval Requests",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "revision_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "content_revisions"
+      },
+      "policy_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "approval_policies"
+      },
+      "policy_snapshot": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "digest": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "expires_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "approval_steps": {
+    "label": "Approval Steps",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "request_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "approval_requests"
+      },
+      "ordinal": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "reviewer_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "users"
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "decided_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      },
+      "comment": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "publication_batches": {
+    "label": "Publication Batches",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "revision_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "content_revisions"
+      },
+      "approval_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "approval_requests"
+      },
+      "requested_by": {
+        "type": "uuid",
+        "required": true,
+        "ref": "users"
+      },
+      "idempotency_key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "plan_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "publish_plans"
+      },
+      "authorisation_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "publish_action_authorisations"
+      },
+      "status": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "accepted_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "publishing_targets": {
+    "label": "Publishing Targets",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "batch_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "publication_batches"
+      },
+      "account_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "social_accounts"
+      },
+      "variant_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "content_variants"
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "local_time": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "timezone": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "utc_offset": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "scheduled_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "generation": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "lease_until": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      },
+      "next_attempt_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      },
+      "remote_id": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "remote_url": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "published_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      },
+      "evidence_type": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "last_error_code": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "plan_target_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "publish_plan_targets",
+        "default": null
+      },
+      "accepted_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null,
+        "default": null
+      },
+      "last_reconciled_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null,
+        "default": null
+      },
+      "provider_receipt": {
+        "type": "text",
+        "required": false,
+        "ref": null,
+        "default": null
+      }
+    }
+  },
+  "publication_attempts": {
+    "label": "Publication Attempts",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "target_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "publishing_targets"
+      },
+      "generation": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "attempt_no": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "request_id": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "provider_upload_id": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "response_summary": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "started_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "finished_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      },
+      "request_hash": {
+        "type": "text",
+        "required": false,
+        "ref": null,
+        "default": null
+      },
+      "ambiguity_reason": {
+        "type": "text",
+        "required": false,
+        "ref": null,
+        "default": null
+      }
+    }
+  },
+  "manual_publication_tasks": {
+    "label": "Manual Publication Tasks",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "target_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "publishing_targets"
+      },
+      "export_key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "assigned_to": {
+        "type": "uuid",
+        "required": false,
+        "ref": "users"
+      },
+      "confirmed_by": {
+        "type": "uuid",
+        "required": false,
+        "ref": "users"
+      },
+      "confirmed_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "provider_webhook_events": {
+    "label": "Provider Webhook Events",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "provider_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "providers"
+      },
+      "delivery_id": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "payload_key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "signature_verified": {
+        "type": "bool",
+        "required": true,
+        "ref": null
+      },
+      "processing_state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "received_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "inbox_conversations": {
+    "label": "Inbox Conversations",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "account_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "social_accounts"
+      },
+      "external_id": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "type": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "assignee_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "users"
+      }
+    }
+  },
+  "inbox_messages": {
+    "label": "Inbox Messages",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "conversation_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "inbox_conversations"
+      },
+      "external_id": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "direction": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "body": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "sender_ref": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "sent_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "inbox_actions": {
+    "label": "Inbox Actions",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "message_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "inbox_messages"
+      },
+      "actor_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "users"
+      },
+      "action": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "provider_request_id": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "contacts": {
+    "label": "Contacts",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "external_key": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "email_encrypted": {
+        "type": "bytea",
+        "required": false,
+        "ref": null
+      },
+      "email_hash": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "phone_encrypted": {
+        "type": "bytea",
+        "required": false,
+        "ref": null
+      },
+      "phone_hash": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "attributes": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "consent_events": {
+    "label": "Consent Events",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "contact_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "contacts"
+      },
+      "channel": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "purpose": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "decision": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "evidence": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "occurred_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "suppressions": {
+    "label": "Suppressions",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "identity_hash": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "channel": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "reason": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "suppressed_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "audience_segments": {
+    "label": "Audience Segments",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "rule_definition": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "audience_snapshots": {
+    "label": "Audience Snapshots",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "segment_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "audience_segments"
+      },
+      "generated_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "count": {
+        "type": "bigint",
+        "required": true,
+        "ref": null
+      },
+      "object_key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "landing_pages": {
+    "label": "Landing Pages",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "slug": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "title": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "draft_blocks": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "page_releases": {
+    "label": "Page Releases",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "page_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "landing_pages"
+      },
+      "revision_no": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "content_key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "digest": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "published_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "forms": {
+    "label": "Forms",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "public_id": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "fields": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "consent_copy": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "form_submissions": {
+    "label": "Form Submissions",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "form_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "forms"
+      },
+      "contact_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "contacts"
+      },
+      "payload_encrypted": {
+        "type": "bytea",
+        "required": true,
+        "ref": null
+      },
+      "consent_evidence": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "received_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "email_templates": {
+    "label": "Email Templates",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "subject": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "sanitised_body": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "message_campaigns": {
+    "label": "Message Campaigns",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "segment_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "audience_segments"
+      },
+      "template_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "email_templates"
+      },
+      "name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "channel": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "content_snapshot": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "approval_snapshot": {
+        "type": "jsonb",
+        "required": false,
+        "ref": null
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "message_deliveries": {
+    "label": "Message Deliveries",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "campaign_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "message_campaigns"
+      },
+      "contact_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "contacts"
+      },
+      "snapshot_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "audience_snapshots"
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "external_id": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "idempotency_key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "sent_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "automations": {
+    "label": "Automations",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "trigger_spec": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "graph_definition": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "automation_runs": {
+    "label": "Automation Runs",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "automation_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "automations"
+      },
+      "trigger_event_id": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "definition_snapshot": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "finished_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "automation_steps": {
+    "label": "Automation Steps",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "run_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "automation_runs"
+      },
+      "step_key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "attempt_no": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "output_summary": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "ad_accounts": {
+    "label": "Ad Accounts",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "provider_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "providers"
+      },
+      "connection_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "social_connections"
+      },
+      "external_id": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "currency": {
+        "type": "char(3)",
+        "required": true,
+        "ref": null
+      },
+      "status": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "ad_campaigns": {
+    "label": "Ad Campaigns",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "ad_account_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "ad_accounts"
+      },
+      "provider_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "providers"
+      },
+      "name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "objective": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "budget_minor": {
+        "type": "bigint",
+        "required": true,
+        "ref": null
+      },
+      "currency": {
+        "type": "char(3)",
+        "required": true,
+        "ref": null
+      },
+      "external_id": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "ad_budget_approvals": {
+    "label": "Ad Budget Approvals",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "ad_campaign_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "ad_campaigns"
+      },
+      "approved_by": {
+        "type": "uuid",
+        "required": true,
+        "ref": "users"
+      },
+      "max_minor": {
+        "type": "bigint",
+        "required": true,
+        "ref": null
+      },
+      "currency": {
+        "type": "char(3)",
+        "required": true,
+        "ref": null
+      },
+      "digest": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "expires_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "ad_creatives": {
+    "label": "Ad Creatives",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "ad_campaign_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "ad_campaigns"
+      },
+      "variant_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "content_variants"
+      },
+      "external_id": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "ad_spend_snapshots": {
+    "label": "Ad Spend Snapshots",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "ad_campaign_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "ad_campaigns"
+      },
+      "period_start": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "period_end": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "amount_minor": {
+        "type": "bigint",
+        "required": true,
+        "ref": null
+      },
+      "currency": {
+        "type": "char(3)",
+        "required": true,
+        "ref": null
+      },
+      "fetched_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "tracking_links": {
+    "label": "Tracking Links",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "campaign_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "campaigns"
+      },
+      "code": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "destination_url": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "utm_fields": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "tracking_events": {
+    "label": "Tracking Events",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "link_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "tracking_links"
+      },
+      "event_id": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "event_name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "occurred_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "properties": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "consent_state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "conversions": {
+    "label": "Conversions",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "campaign_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "campaigns"
+      },
+      "contact_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "contacts"
+      },
+      "external_event_id": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "value_minor": {
+        "type": "bigint",
+        "required": false,
+        "ref": null
+      },
+      "currency": {
+        "type": "char(3)",
+        "required": false,
+        "ref": null
+      },
+      "occurred_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "attribution": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "metric_definitions": {
+    "label": "Metric Definitions",
+    "writable": false,
+    "global": true,
+    "fields": {
+      "provider_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "providers"
+      },
+      "key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "unit": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "aggregation": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "definition_version": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "metric_observations": {
+    "label": "Metric Observations",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "account_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "social_accounts"
+      },
+      "target_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "publishing_targets"
+      },
+      "metric_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "metric_definitions"
+      },
+      "subject_key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "period_start": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "period_end": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "value": {
+        "type": "numeric",
+        "required": false,
+        "ref": null
+      },
+      "dimensions": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "dimensions_hash": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "fetched_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "metric_sync_cursors": {
+    "label": "Metric Sync Cursors",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "account_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "social_accounts"
+      },
+      "stream": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "cursor": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "last_success_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "experiments": {
+    "label": "Experiments",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "campaign_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "campaigns"
+      },
+      "name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "hypothesis": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "variants": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "primary_metric": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "experiment_assignments": {
+    "label": "Experiment Assignments",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "experiment_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "experiments"
+      },
+      "subject_hash": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "variant_key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "report_definitions": {
+    "label": "Report Definitions",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "metrics": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "date_range": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "layout": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "report_runs": {
+    "label": "Report Runs",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "definition_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "report_definitions"
+      },
+      "parameters": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "output_key": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "expires_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "crm_sync_records": {
+    "label": "Crm Sync Records",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "connection_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "crm_connections"
+      },
+      "contact_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "contacts"
+      },
+      "external_id": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "cursor": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "last_synced_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "jobs": {
+    "label": "Jobs",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "kind": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "resource_type": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "resource_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "progress": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "error_code": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "result_key": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "started_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      },
+      "finished_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "outbox_events": {
+    "label": "Outbox Events",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "aggregate_type": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "aggregate_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": null
+      },
+      "event_type": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "schema_version": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "payload": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "available_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "delivered_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "consumer_receipts": {
+    "label": "Consumer Receipts",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "consumer": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "event_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": null
+      },
+      "processed_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "idempotency_records": {
+    "label": "Idempotency Records",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "principal_key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "operation": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "request_hash": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "result": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "expires_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "webhook_deliveries": {
+    "label": "Webhook Deliveries",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "subscription_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "webhook_subscriptions"
+      },
+      "event_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "outbox_events"
+      },
+      "attempt_no": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "next_attempt_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      },
+      "response_code": {
+        "type": "int",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "notifications": {
+    "label": "Notifications",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "recipient_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "users"
+      },
+      "type": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "payload": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "read_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "notification_preferences": {
+    "label": "Notification Preferences",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "user_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "users"
+      },
+      "event_type": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "channels": {
+        "type": "text[]",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "plans": {
+    "label": "Plans",
+    "writable": false,
+    "global": true,
+    "fields": {
+      "key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "entitlements": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "payment_price_id": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "active": {
+        "type": "bool",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "subscriptions": {
+    "label": "Subscriptions",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "plan_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "plans"
+      },
+      "external_customer_id": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "external_subscription_id": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "status": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "period_end": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "usage_ledger": {
+    "label": "Usage Ledger",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "metric": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "quantity": {
+        "type": "bigint",
+        "required": true,
+        "ref": null
+      },
+      "source_type": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "source_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": null
+      },
+      "occurred_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "quota_reservations": {
+    "label": "Quota Reservations",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "metric": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "quantity": {
+        "type": "bigint",
+        "required": true,
+        "ref": null
+      },
+      "resource_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "expires_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "payment_events": {
+    "label": "Payment Events",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "external_event_id": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "payload_key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "received_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "feature_flags": {
+    "label": "Feature Flags",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "enabled": {
+        "type": "bool",
+        "required": true,
+        "ref": null
+      },
+      "config": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "brand_strategies": {
+    "label": "Brand Strategies",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "revision_no": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "audience_ids": {
+        "type": "uuid[]",
+        "required": true,
+        "ref": null
+      },
+      "positioning": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "pillars": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "objective": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "primary_metric": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "story_briefs": {
+    "label": "Story Briefs",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "campaign_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "campaigns"
+      },
+      "strategy_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brand_strategies"
+      },
+      "title": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "audience": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "main_message": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "cta": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "script_revisions": {
+    "label": "Script Revisions",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brief_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "story_briefs"
+      },
+      "revision_no": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "locale": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "beats": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "claims": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "digest": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "created_by": {
+        "type": "uuid",
+        "required": true,
+        "ref": "users"
+      }
+    }
+  },
+  "claim_evidence": {
+    "label": "Claim Evidence",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "script_revision_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "script_revisions"
+      },
+      "claim_key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "evidence_asset_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "assets"
+      },
+      "source_date": {
+        "type": "date",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "script_reviews": {
+    "label": "Script Reviews",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "script_revision_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "script_revisions"
+      },
+      "reviewer_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "users"
+      },
+      "decision": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "claim_decisions": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "comments": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "reviewed_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "productions": {
+    "label": "Productions",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brief_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "story_briefs"
+      },
+      "script_revision_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "script_revisions"
+      },
+      "owner_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "users"
+      },
+      "due_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "production_shots": {
+    "label": "Production Shots",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "production_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "productions"
+      },
+      "scene_key": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "directions": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "start_ms": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "end_ms": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "shot_assets": {
+    "label": "Shot Assets",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "shot_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "production_shots"
+      },
+      "asset_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "assets"
+      },
+      "selected": {
+        "type": "bool",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "contributor_grants": {
+    "label": "Contributor Grants",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "production_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "productions"
+      },
+      "membership_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "memberships"
+      },
+      "allowed_shot_ids": {
+        "type": "uuid[]",
+        "required": true,
+        "ref": null
+      },
+      "expires_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "revoked_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "story_design_links": {
+    "label": "Story Design Links",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "script_revision_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "script_revisions"
+      },
+      "design_revision_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "design_revisions"
+      },
+      "scene_mapping": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "localisations": {
+    "label": "Localisations",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "script_revision_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "script_revisions"
+      },
+      "target_locale": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "translated_beats": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "glossary": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "source_digest": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "voice_consent_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "talent_releases"
+      },
+      "approved_subtitle_track_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "subtitle_tracks",
+        "default": null
+      }
+    }
+  },
+  "subtitle_tracks": {
+    "label": "Subtitle Tracks",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "localisation_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "localisations"
+      },
+      "revision_no": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "segments": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "digest": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "audio_asset_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "assets"
+      }
+    }
+  },
+  "localisation_reviews": {
+    "label": "Localisation Reviews",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "localisation_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "localisations"
+      },
+      "reviewed_version": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "reviewer_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "users"
+      },
+      "decision": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "comments": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "creative_lineage": {
+    "label": "Creative Lineage",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "source_design_revision_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "design_revisions"
+      },
+      "derived_design_revision_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "design_revisions"
+      },
+      "transform_spec": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "creators": {
+    "label": "Creators",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "display_name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "contacts_encrypted": {
+        "type": "bytea",
+        "required": true,
+        "ref": null
+      },
+      "tags": {
+        "type": "text[]",
+        "required": true,
+        "ref": null
+      },
+      "archived_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "creator_agreements": {
+    "label": "Creator Agreements",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "creator_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "creators"
+      },
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "contract_asset_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "assets"
+      },
+      "permitted_uses": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "territory": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "starts_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "expires_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "creator_deliverables": {
+    "label": "Creator Deliverables",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "agreement_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "creator_agreements"
+      },
+      "brief_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "story_briefs"
+      },
+      "due_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "format": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "evidence_url": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "creator_deliverable_assets": {
+    "label": "Creator Deliverable Assets",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "deliverable_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "creator_deliverables"
+      },
+      "asset_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "assets"
+      }
+    }
+  },
+  "talent_releases": {
+    "label": "Talent Releases",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "subject_ref": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "evidence_asset_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "assets"
+      },
+      "allowed_uses": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "expires_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "revoked_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "asset_talent_releases": {
+    "label": "Asset Talent Releases",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "asset_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "assets"
+      },
+      "release_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "talent_releases"
+      }
+    }
+  },
+  "creative_comparisons": {
+    "label": "Creative Comparisons",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "experiment_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "experiments"
+      },
+      "variant_mapping": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "metric_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "metric_definitions"
+      },
+      "window_start": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "window_end": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "method": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "outcome": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "campaign_learnings": {
+    "label": "Campaign Learnings",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "campaign_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "campaigns"
+      },
+      "comparison_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "creative_comparisons"
+      },
+      "lesson": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "evidence": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "decision": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "reviewed_by": {
+        "type": "uuid",
+        "required": false,
+        "ref": "users"
+      }
+    }
+  },
+  "programmes": {
+    "label": "Programmes",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "campaign_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "campaigns"
+      },
+      "form_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "forms"
+      },
+      "public_id": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "title": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "type": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "terms_version": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "programme_activities": {
+    "label": "Programme Activities",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "programme_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "programmes"
+      },
+      "ordinal": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "title": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "approved_content": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "opens_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "closes_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "programme_enrolments": {
+    "label": "Programme Enrolments",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "programme_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "programmes"
+      },
+      "contact_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "contacts"
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "terms_version": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "verified_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      },
+      "withdrawn_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "programme_progress": {
+    "label": "Programme Progress",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "enrolment_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "programme_enrolments"
+      },
+      "activity_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "programme_activities"
+      },
+      "event_id": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "completed_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "evidence_asset_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "assets"
+      }
+    }
+  },
+  "competitors": {
+    "label": "Competitors",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "relation": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "market": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "status": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "competitor_sources": {
+    "label": "Competitor Sources",
+    "writable": true,
+    "global": false,
+    "fields": {
+      "competitor_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "competitors"
+      },
+      "kind": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "canonical_url": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "provider_entity_id": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "identity_status": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "verified_by": {
+        "type": "uuid",
+        "required": false,
+        "ref": "memberships"
+      },
+      "verified_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      },
+      "current_policy_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "intelligence_source_policies",
+        "default": null
+      }
+    }
+  },
+  "intelligence_source_policies": {
+    "label": "Intelligence Source Policies",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "source_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "competitor_sources"
+      },
+      "collection_mode": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "allowed_uses": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "retention_days": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "licence_ref": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "approved_by": {
+        "type": "uuid",
+        "required": true,
+        "ref": "memberships"
+      },
+      "expires_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      },
+      "policy_hash": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "intelligence_schedules": {
+    "label": "Intelligence Schedules",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "source_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "competitor_sources"
+      },
+      "policy_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "intelligence_source_policies"
+      },
+      "interval_seconds": {
+        "type": "int",
+        "required": true,
+        "ref": null
+      },
+      "timezone": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "next_run_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "enabled": {
+        "type": "bool",
+        "required": true,
+        "ref": null
+      },
+      "max_cost": {
+        "type": "numeric",
+        "required": true,
+        "ref": null
+      },
+      "currency": {
+        "type": "char(3)",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "intelligence_capture_jobs": {
+    "label": "Intelligence Capture Jobs",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "source_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "competitor_sources"
+      },
+      "policy_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "intelligence_source_policies"
+      },
+      "job_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "jobs"
+      },
+      "window_start": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "window_end": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "status": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "cost": {
+        "type": "numeric",
+        "required": true,
+        "ref": null
+      },
+      "error_code": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "intelligence_captures": {
+    "label": "Intelligence Captures",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "source_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "competitor_sources"
+      },
+      "capture_job_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "intelligence_capture_jobs"
+      },
+      "imported_asset_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "assets"
+      },
+      "observed_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "source_published_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      },
+      "source_url": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "object_key": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "content_hash": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "extractor_version": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "coverage": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "expires_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "intelligence_observations": {
+    "label": "Intelligence Observations",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "capture_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "intelligence_captures"
+      },
+      "dimension": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "value": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "source_span": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "metric_definition": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "missing_reason": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "competitor_ad_records": {
+    "label": "Competitor Ad Records",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "capture_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "intelligence_captures"
+      },
+      "provider": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "provider_ad_id": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "advertiser_ref": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "first_seen": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      },
+      "last_seen": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      },
+      "region": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "creative_ref": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "supplied_metrics": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "comparison_snapshots": {
+    "label": "Comparison Snapshots",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "period_start": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "period_end": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "market": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "dimensions": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "coverage": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "algorithm_version": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "snapshot_hash": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "status": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "comparison_members": {
+    "label": "Comparison Members",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "comparison_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "comparison_snapshots"
+      },
+      "competitor_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "competitors"
+      },
+      "owned_brand_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "brands"
+      },
+      "cohort": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "comparison_evidence": {
+    "label": "Comparison Evidence",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "comparison_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "comparison_snapshots"
+      },
+      "observation_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "intelligence_observations"
+      },
+      "inclusion_reason": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "recommendation_sets": {
+    "label": "Recommendation Sets",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "comparison_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "comparison_snapshots"
+      },
+      "ai_job_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "ai_jobs"
+      },
+      "constraints": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "rubric_version": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "evidence_hash": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "status": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "marketing_recommendations": {
+    "label": "Marketing Recommendations",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "set_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "recommendation_sets"
+      },
+      "angle": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "hypothesis": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "action": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "effort": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "budget": {
+        "type": "numeric",
+        "required": false,
+        "ref": null
+      },
+      "currency": {
+        "type": "char(3)",
+        "required": false,
+        "ref": null
+      },
+      "scoring": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "confidence": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "limitations": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "primary_metric": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "recommendation_evidence": {
+    "label": "Recommendation Evidence",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "recommendation_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "marketing_recommendations"
+      },
+      "observation_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "intelligence_observations"
+      },
+      "relation": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "explanation": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "recommendation_reviews": {
+    "label": "Recommendation Reviews",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "recommendation_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "marketing_recommendations"
+      },
+      "reviewer_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "memberships"
+      },
+      "decision": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "rationale": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "recommendation_drafts": {
+    "label": "Recommendation Drafts",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "recommendation_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "marketing_recommendations"
+      },
+      "content_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "content_posts"
+      },
+      "brief_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "story_briefs"
+      },
+      "design_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "designs"
+      },
+      "generation_job_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "jobs"
+      }
+    }
+  },
+  "intelligence_alert_subscriptions": {
+    "label": "Intelligence Alert Subscriptions",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "membership_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "memberships"
+      },
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "change_types": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "threshold": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "delivery_settings": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "enabled": {
+        "type": "bool",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "intelligence_alert_sources": {
+    "label": "Intelligence Alert Sources",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "subscription_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "intelligence_alert_subscriptions"
+      },
+      "source_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "competitor_sources"
+      }
+    }
+  },
+  "intelligence_alerts": {
+    "label": "Intelligence Alerts",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "subscription_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "intelligence_alert_subscriptions"
+      },
+      "old_capture_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "intelligence_captures"
+      },
+      "new_capture_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "intelligence_captures"
+      },
+      "change_hash": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "explanation": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "read_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "publishing_capability_snapshots": {
+    "label": "Publishing Capability Snapshots",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "social_account_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "social_accounts"
+      },
+      "provider_version": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "capability": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "policy_hash": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "checked_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "expires_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "evidence_url": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "publish_plans": {
+    "label": "Publish Plans",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "content_revision_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "content_revisions"
+      },
+      "created_by": {
+        "type": "uuid",
+        "required": true,
+        "ref": "memberships"
+      },
+      "action": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "scheduled_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      },
+      "plan_hash": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "status": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "expires_at": {
+        "type": "timestamptz",
+        "required": true,
+        "ref": null
+      },
+      "target_accounts": {
+        "type": "uuid[]",
+        "required": true,
+        "ref": null,
+        "default": "'{}'::uuid[]"
+      },
+      "mcp_grant_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "mcp_client_grants",
+        "default": null
+      }
+    }
+  },
+  "publish_plan_targets": {
+    "label": "Publish Plan Targets",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "plan_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "publish_plans"
+      },
+      "social_account_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "social_accounts"
+      },
+      "variant_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "content_variants"
+      },
+      "capability_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "publishing_capability_snapshots"
+      },
+      "options": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "media_hashes": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "blockers": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "target_hash": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "mcp_grant_accounts": {
+    "label": "Mcp Grant Accounts",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "grant_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "mcp_client_grants"
+      },
+      "social_account_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "social_accounts"
+      }
+    }
+  },
+  "mcp_server_registry": {
+    "label": "Mcp Server Registry",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "canonical_url": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "identity_fingerprint": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "owner_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "memberships"
+      },
+      "trust_state": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "allowed_egress": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      }
+    }
+  },
+  "mcp_tool_versions": {
+    "label": "Mcp Tool Versions",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "server_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "mcp_server_registry"
+      },
+      "tool_name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "schema_hash": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "input_schema": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "output_schema": {
+        "type": "jsonb",
+        "required": true,
+        "ref": null
+      },
+      "approved_by": {
+        "type": "uuid",
+        "required": false,
+        "ref": "memberships"
+      },
+      "disabled_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "mcp_invocations": {
+    "label": "Mcp Invocations",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "grant_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "mcp_client_grants"
+      },
+      "tool_name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "schema_hash": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "request_hash": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "correlation_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": null
+      },
+      "plan_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "publish_plans"
+      },
+      "batch_id": {
+        "type": "uuid",
+        "required": false,
+        "ref": "publication_batches"
+      },
+      "outcome": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "error_code": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "content_revision_rights": {
+    "label": "Content Revision Rights",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "revision_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "content_revisions"
+      },
+      "release_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "talent_releases"
+      }
+    }
+  },
+  "content_revision_agreements": {
+    "label": "Content Revision Agreements",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "revision_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "content_revisions"
+      },
+      "agreement_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "creator_agreements"
+      }
+    }
+  },
+  "media_plans": {
+    "label": "Media Plans",
+    "global": false,
+    "writable": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "objective": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "funnel": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "awareness": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "budget_minor": {
+        "type": "bigint",
+        "required": false,
+        "ref": null
+      },
+      "currency": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "hypothesis": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "primary_metric": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "click_days": {
+        "type": "int",
+        "required": false,
+        "ref": null
+      },
+      "view_days": {
+        "type": "int",
+        "required": false,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "created_by": {
+        "type": "uuid",
+        "required": false,
+        "ref": null
+      },
+      "approved_by": {
+        "type": "uuid",
+        "required": false,
+        "ref": null
+      },
+      "approved_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "channel_schedules": {
+    "label": "Channel Schedules",
+    "global": false,
+    "writable": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "channel": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "title": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "caption": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "scheduled_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      },
+      "timezone": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "format": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "performance_facts": {
+    "label": "Performance Facts",
+    "global": false,
+    "writable": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "channel": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "day": {
+        "type": "date",
+        "required": false,
+        "ref": null
+      },
+      "currency": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "source": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "attribution": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "spend": {
+        "type": "numeric",
+        "required": false,
+        "ref": null
+      },
+      "revenue": {
+        "type": "numeric",
+        "required": false,
+        "ref": null
+      },
+      "acquisition_cost": {
+        "type": "numeric",
+        "required": false,
+        "ref": null
+      },
+      "new_customers": {
+        "type": "bigint",
+        "required": false,
+        "ref": null
+      },
+      "impressions": {
+        "type": "bigint",
+        "required": false,
+        "ref": null
+      },
+      "clicks": {
+        "type": "bigint",
+        "required": false,
+        "ref": null
+      },
+      "reach": {
+        "type": "bigint",
+        "required": false,
+        "ref": null
+      },
+      "results": {
+        "type": "bigint",
+        "required": false,
+        "ref": null
+      },
+      "first_impressions": {
+        "type": "bigint",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "conversion_signals": {
+    "label": "Conversion Signals",
+    "global": false,
+    "writable": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "event_id": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "event_name": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "event_time": {
+        "type": "bigint",
+        "required": false,
+        "ref": null
+      },
+      "source_url": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "consent": {
+        "type": "boolean",
+        "required": false,
+        "ref": null
+      },
+      "email_hash": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "value": {
+        "type": "numeric",
+        "required": false,
+        "ref": null
+      },
+      "currency": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "last_error": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "attempt_at": {
+        "type": "timestamptz",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "creative_test_briefs": {
+    "label": "Creative Test Briefs",
+    "global": false,
+    "writable": true,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "name": {
+        "type": "text",
+        "required": true,
+        "ref": null
+      },
+      "hypothesis": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "control_concept": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "variant_concept": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "primary_metric": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "decision_rule": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "customer_value_cohorts": {
+    "label": "Customer Value Cohorts",
+    "global": false,
+    "writable": true,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "cohort_month": {
+        "type": "date",
+        "required": true,
+        "ref": null
+      },
+      "currency": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "customers": {
+        "type": "int",
+        "required": false,
+        "ref": null
+      },
+      "net_revenue": {
+        "type": "numeric",
+        "required": false,
+        "ref": null
+      },
+      "contribution": {
+        "type": "numeric",
+        "required": false,
+        "ref": null
+      },
+      "acquisition_cost": {
+        "type": "numeric",
+        "required": false,
+        "ref": null
+      },
+      "horizon_months": {
+        "type": "int",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "media_mix_observations": {
+    "label": "Media Mix Observations",
+    "global": false,
+    "writable": true,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "ref": "brands"
+      },
+      "week": {
+        "type": "date",
+        "required": true,
+        "ref": null
+      },
+      "geo": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "channel": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "currency": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      },
+      "spend": {
+        "type": "numeric",
+        "required": false,
+        "ref": null
+      },
+      "exposure": {
+        "type": "numeric",
+        "required": false,
+        "ref": null
+      },
+      "outcome": {
+        "type": "numeric",
+        "required": false,
+        "ref": null
+      },
+      "controls": {
+        "type": "jsonb",
+        "required": false,
+        "ref": null
+      },
+      "source": {
+        "type": "text",
+        "required": false,
+        "ref": null
+      }
+    }
+  },
+  "channel_brand_profiles": {
+    "label": "Channel Brand Profiles",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "channel": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "person_name": {
+        "type": "text",
+        "required": true,
+        "default": "''::text",
+        "ref": null
+      },
+      "identity": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "audience": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "voice": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "proof": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "pillars": {
+        "type": "ARRAY",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "forbidden": {
+        "type": "ARRAY",
+        "required": true,
+        "default": "'{}'::text[]",
+        "ref": null
+      },
+      "created_by": {
+        "type": "uuid",
+        "required": true,
+        "default": null,
+        "ref": null
+      }
+    }
+  },
+  "regional_ad_observations": {
+    "label": "Regional Ad Observations",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "channel": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "advertiser": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "source_url": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "source_kind": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "external_id": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "region": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "region_basis": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "locality": {
+        "type": "text",
+        "required": true,
+        "default": "''::text",
+        "ref": null
+      },
+      "observed_at": {
+        "type": "timestamp with time zone",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "copy": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "tags": {
+        "type": "ARRAY",
+        "required": true,
+        "default": "'{}'::text[]",
+        "ref": null
+      },
+      "headline": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "offer": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "cta": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "format": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "landing_url": {
+        "type": "text",
+        "required": true,
+        "default": "''::text",
+        "ref": null
+      },
+      "permitted": {
+        "type": "boolean",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "created_by": {
+        "type": "uuid",
+        "required": true,
+        "default": null,
+        "ref": null
+      }
+    }
+  },
+  "ad_concept_variants": {
+    "label": "Ad Concept Variants",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "channel": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "region": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "evidence_ids": {
+        "type": "ARRAY",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "variants": {
+        "type": "jsonb",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "created_by": {
+        "type": "uuid",
+        "required": true,
+        "default": null,
+        "ref": null
+      }
+    }
+  },
+  "studio_templates": {
+    "label": "Studio Templates",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "channel": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "name": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "scene": {
+        "type": "jsonb",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "caption": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "created_by": {
+        "type": "uuid",
+        "required": true,
+        "default": null,
+        "ref": null
+      }
+    }
+  },
+  "channel_content_briefs": {
+    "label": "Channel Content Briefs",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "channel": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "title": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "funnel": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "format": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "caption": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "cta": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "proof": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "lead_magnet_url": {
+        "type": "text",
+        "required": true,
+        "default": "''::text",
+        "ref": null
+      },
+      "created_by": {
+        "type": "uuid",
+        "required": true,
+        "default": null,
+        "ref": null
+      }
+    }
+  },
+  "workspace_video_policies": {
+    "label": "Workspace Video Policies",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "enabled": {
+        "type": "boolean",
+        "required": true,
+        "default": "false",
+        "ref": null
+      },
+      "daily_limit_minor": {
+        "type": "bigint",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "currency": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      }
+    }
+  },
+  "video_generation_jobs": {
+    "label": "Video Generation Jobs",
+    "writable": false,
+    "global": false,
+    "fields": {
+      "brand_id": {
+        "type": "uuid",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "channel": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "title": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "prompt": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "aspect_ratio": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "provider": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "provider_model": {
+        "type": "text",
+        "required": true,
+        "default": "''::text",
+        "ref": null
+      },
+      "estimated_cost_minor": {
+        "type": "bigint",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "currency": {
+        "type": "text",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "rights_confirmed": {
+        "type": "boolean",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "state": {
+        "type": "text",
+        "required": true,
+        "default": "'DRAFT'::text",
+        "ref": null
+      },
+      "created_by": {
+        "type": "uuid",
+        "required": true,
+        "default": null,
+        "ref": null
+      },
+      "approved_by": {
+        "type": "uuid",
+        "required": false,
+        "default": null,
+        "ref": null
+      },
+      "approved_at": {
+        "type": "timestamp with time zone",
+        "required": false,
+        "default": null,
+        "ref": null
+      },
+      "attempt_at": {
+        "type": "timestamp with time zone",
+        "required": false,
+        "default": null,
+        "ref": null
+      },
+      "provider_id": {
+        "type": "text",
+        "required": false,
+        "default": null,
+        "ref": null
+      },
+      "output_path": {
+        "type": "text",
+        "required": false,
+        "default": null,
+        "ref": null
+      },
+      "last_error": {
+        "type": "text",
+        "required": false,
+        "default": null,
+        "ref": null
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "framework": "nextjs",
+  "crons": [
+    {
+      "path": "/api/cron/publish",
+      "schedule": "* * * * *"
+    },
+    {
+      "path": "/api/cron/conversions",
+      "schedule": "* * * * *"
+    },
+    {
+      "path": "/api/cron/videos",
+      "schedule": "* * * * *"
+    }
+  ],
+  "functions": {
+    "src/app/api/cron/publish/route.ts": {
+      "maxDuration": 60
+    },
+    "src/app/api/cron/videos/route.ts": {
+      "maxDuration": 180
+    }
+  }
+}

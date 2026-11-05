@@ -1,0 +1,3 @@
+import {parse,visit,GraphQLScalarType,Kind,valueFromASTUntyped} from 'graphql';
+export function checkQuery(query:string){if(query.length>20000)throw new Error('QUERY_TOO_LARGE');const ast=parse(query);let fields=0,depth=0,maxDepth=0,operations=0;visit(ast,{OperationDefinition(){operations++;},FragmentDefinition(){throw new Error('FRAGMENTS_NOT_SUPPORTED');},Field:{enter(){fields++;depth++;maxDepth=Math.max(maxDepth,depth);},leave(){depth--;}}});if(fields>80||maxDepth>8||operations!==1)throw new Error('QUERY_COMPLEXITY_LIMIT');}
+export const JSONScalar=new GraphQLScalarType({name:'JSON',serialize:v=>v,parseValue:v=>v,parseLiteral:ast=>valueFromASTUntyped(ast)});

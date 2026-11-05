@@ -1,0 +1,29 @@
+import {VideoSchema,flowBrief} from '@/lib/channels';
+import {McpServer} from '@modelcontextprotocol/sdk/server/mcp.js';
+import {WebStandardStreamableHTTPServerTransport} from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js';
+import {z} from 'zod';
+import {adminDb} from '@/lib/supabase/server';
+import {hash,apiError} from '@/lib/security';
+export const runtime='nodejs';
+export async function POST(request:Request){try{
+ const origin=request.headers.get('origin');if(origin&&origin!==new URL(process.env.APP_URL??'http://localhost:3000').origin)throw new Error('ORIGIN_REJECTED');
+ const token=request.headers.get('authorization')?.replace(/^Bearer /,'');if(!token?.startsWith('bos_'))throw new Error('UNAUTHENTICATED');const db=adminDb();const {data:g}=await db.from('mcp_client_grants').select('*').eq('token_hash',hash(token)).is('revoked_at',null).gt('expires_at',new Date().toISOString()).single();if(!g)throw new Error('UNAUTHENTICATED');const {data:m}=await db.from('memberships').select('id').eq('id',g.membership_id).eq('status','active').is('archived_at',null).single();if(!m)throw new Error('FORBIDDEN');
+ const server=new McpServer({name:'brand-os',version:'0.1.0'});const response=(v:unknown)=>({content:[{type:'text' as const,text:JSON.stringify(v)}]});
+ async function read(table:string,id?:string){let q=db.from(table).select('*').eq('organisation_id',g.organisation_id).limit(50);if(id)q=q.eq('id',id);const {data,error}=await q;if(error)throw new Error('READ_FAILED');return data;}
+ async function run(op:string,args:Record<string,unknown>){const {data,error}=await db.rpc('mcp_command',{gid:g.id,op,args});if(error)throw new Error(error.message);return data;}
+ server.registerTool('social.list_accounts',{description:'List authorised workspace accounts. Never returns tokens.',inputSchema:{}},async()=>response(await read('social_accounts')));
+ server.registerTool('competitors.compare',{description:'Read a saved comparison and its coverage.',inputSchema:{comparisonId:z.uuid()}},async a=>response(await read('comparison_snapshots',a.comparisonId)));
+ server.registerTool('social.get_publish_status',{description:'Read batch and per-account delivery states.',inputSchema:{batchId:z.uuid()}},async a=>{const {data}=await db.from('publishing_targets').select('*').eq('organisation_id',g.organisation_id).eq('batch_id',a.batchId);return response(data);});
+ server.registerTool('video.get_status',{description:'Read a video job status. Never generates or publishes media.',inputSchema:{jobId:z.uuid()}},async a=>response(await read('video_generation_jobs',a.jobId)));
+ server.registerTool('video.export_flow_brief',{description:'Return a manual Google Flow brief. This does not call an official Flow API or browser automation.',inputSchema:{jobId:z.uuid()}},async a=>{const j=(await read('video_generation_jobs',a.jobId))?.[0];if(!j||j.provider!=='FLOW_HANDOFF')throw Error('FLOW_HANDOFF_REQUIRED');return response({brief:flowBrief(j),url:'https://flow.google.com/'});});
+ if(g.scopes.includes('draft')){
+ server.registerTool('video.create_draft',{description:'Create an unapproved Google video API job or manual Flow brief. A separate human must approve paid API generation. No social publication.',inputSchema:VideoSchema.shape},async a=>{const parsed=VideoSchema.parse(a);const {data,error}=await db.rpc('channel_mcp_command',{gid:g.id,op:'create_video_job',args:{...parsed,providerModel:process.env.GOOGLE_VIDEO_MODEL??''}});if(error)throw Error(error.message);return response(data);});
+ server.registerTool('marketing.suggest',{description:'Generate three deterministic starter hypotheses from imported evidence. Not an AI performance prediction.',inputSchema:{brandId:z.uuid(),objective:z.string().max(500),idempotencyKey:z.string().min(8)}},async a=>response(await run('recommend',a)));
+ server.registerTool('creative.create_draft',{description:'Save an unapproved original content draft.',inputSchema:{brandId:z.uuid(),title:z.string().min(1).max(200),caption:z.string().max(6000),idempotencyKey:z.string().min(8)}},async a=>response(await run('save_post',a)));
+ server.registerTool('social.prepare_post',{description:'Prepare an approved revision for exact accounts. Does not publish.',inputSchema:{revisionId:z.uuid(),accountIds:z.array(z.uuid()).min(1).max(20),idempotencyKey:z.string().min(8)}},async a=>response(await run('prepare',a)));
+ server.registerTool('social.request_publish_approval',{description:'Return a trusted UI link for human review and commit. A tool response cannot grant approval.',inputSchema:{planId:z.uuid()}},async a=>{const p=(await read('publish_plans',a.planId))?.[0];if(!p||p.mcp_grant_id!==g.id)throw new Error('PLAN_MISMATCH');return response({approvalURL:`${process.env.APP_URL}/approve/${p.id}`,expiresAt:p.expires_at});});
+ server.registerTool('social.commit_post',{description:'Return the batch after the human commits through the approval URL. This tool cannot self-authorise or trigger an unapproved post.',inputSchema:{planId:z.uuid(),planHash:z.string()}},async a=>{const p=(await read('publish_plans',a.planId))?.[0];if(!p||p.mcp_grant_id!==g.id||p.plan_hash!==a.planHash)throw new Error('PLAN_MISMATCH');const {data}=await db.from('publication_batches').select('id,status').eq('organisation_id',g.organisation_id).eq('plan_id',p.id);return response(data?.length?data:{error:'HUMAN_APPROVAL_REQUIRED',approvalURL:`${process.env.APP_URL}/approve/${p.id}`});});
+ }
+ const transport=new WebStandardStreamableHTTPServerTransport({sessionIdGenerator:undefined,enableJsonResponse:true});await server.connect(transport);const result=await transport.handleRequest(request);return result;
+ }catch(e){return apiError(e);}}
+export async function GET(){return Response.json({error:'Use a Streamable HTTP MCP client with POST and a workspace-issued bearer token. OAuth discovery is not enabled.'},{status:405});}

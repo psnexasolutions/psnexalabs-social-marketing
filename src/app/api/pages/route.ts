@@ -1,0 +1,2 @@
+import {context} from '@/lib/api';import {requireOrigin,jsonBody,apiError} from '@/lib/security';
+export async function POST(r:Request){try{requireOrigin(r);const {org,pageId,expectedVersion}=await jsonBody(r,10000);const {db}=await context(org);const {data,error}=await db.rpc('release_page',{oid:org,pid:pageId,expected_version:expectedVersion});if(error)throw new Error(error.message);return Response.json({releaseId:data});}catch(e){return apiError(e);}}

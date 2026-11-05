@@ -1,0 +1,4 @@
+import {channelWorkspace,channelCommand,channelResearch,videoOutput} from '@/lib/channel-service';
+import {apiError,requireOrigin,jsonBody,noStore} from '@/lib/security';
+export async function GET(r:Request){try{const p=new URL(r.url).searchParams;const org=p.get('org')??'';if(p.get('output'))return Response.json(await videoOutput(org,p.get('output')!),{headers:noStore});const rows=await channelWorkspace(org,p.get('brandId')??'',p.get('channel')??'');return Response.json({rows,research:channelResearch(p.get('query')??'',p.get('region')??'NZ')},{headers:noStore});}catch(e){return apiError(e);}}
+export async function POST(r:Request){try{requireOrigin(r);const b=await jsonBody(r,100000);return Response.json(await channelCommand(b.org,b.operation,b.input),{headers:noStore});}catch(e){return apiError(e);}}

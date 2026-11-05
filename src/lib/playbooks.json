@@ -1,0 +1,74 @@
+[
+  {
+    "id": "facebook",
+    "name": "Facebook",
+    "headline": "Connect evidence to conversation",
+    "strategy": "Use native demonstrations, customer stories and FAQs. Pair prospecting concepts with a separate warm-audience hypothesis; exclude recent purchasers where appropriate.",
+    "metric": "Qualified leads and contribution ROAS",
+    "status": "Page image and text adapter",
+    "gate": "Meta Page permissions and account authority; no personal timeline automation."
+  },
+  {
+    "id": "instagram",
+    "name": "Instagram",
+    "headline": "Build a recognisable visual series",
+    "strategy": "Adapt the same idea into a Reel storyboard, carousel outline and image. Test the opening hook and save-worthy educational content; use licensed audio and captions.",
+    "metric": "Saves, qualified visits and purchases",
+    "status": "Professional image adapter",
+    "gate": "Professional account and approved permissions; video and carousel execution remain a connector milestone."
+  },
+  {
+    "id": "whatsapp",
+    "name": "WhatsApp",
+    "headline": "Turn opted-in interest into service",
+    "strategy": "Capture channel-specific consent. Use approved templates for outbound reminders and offers; handle opt-outs immediately. Separate transactional service from marketing.",
+    "metric": "Delivered opted-in messages and qualified replies",
+    "status": "Scheduled handoff",
+    "gate": "Cloud API messaging is not a public feed or WhatsApp Status publisher; templates and service windows apply."
+  },
+  {
+    "id": "youtube",
+    "name": "YouTube",
+    "headline": "Own a useful search topic",
+    "strategy": "Create an original long-form explainer, then derive short clips with a clear next step. Test title and thumbnail separately from the story. Link to a relevant landing page.",
+    "metric": "Watch time, retention and qualified visits",
+    "status": "Scheduled handoff",
+    "gate": "OAuth upload scope, quota and processing verification; use resumable uploads in a separate media worker."
+  },
+  {
+    "id": "snapchat",
+    "name": "Snapchat",
+    "headline": "Design for a vertical camera",
+    "strategy": "Create fast vertical demonstrations with safe-area captions. Plan public Stories or Spotlight separately from Snap Ads. Test one product benefit per concept.",
+    "metric": "Completed views and qualified visits",
+    "status": "Scheduled handoff",
+    "gate": "Public Profile API allowlisting and profile-owned encrypted media upload are required."
+  },
+  {
+    "id": "linkedin",
+    "name": "LinkedIn",
+    "headline": "Earn trust through expertise",
+    "strategy": "Publish evidence-led case studies, founder perspectives and useful document outlines. Measure qualified business enquiries; do not automate unsolicited mass messages.",
+    "metric": "Qualified pipeline and sales acceptance",
+    "status": "Member text and image adapter",
+    "gate": "Company Pages need Community Management access and organisation authority; existing adapter is member-only."
+  },
+  {
+    "id": "tiktok",
+    "name": "TikTok",
+    "headline": "Make the product part of a story",
+    "strategy": "Brief creators around a customer problem and a visible demonstration. Test different reasons to buy, not only new thumbnails. Preserve creator disclosure and music rights.",
+    "metric": "Watch retention and incremental new customers",
+    "status": "Scheduled handoff",
+    "gate": "Direct Post requires creator-info UI, user-selected privacy and explicit consent; unaudited clients are restricted."
+  },
+  {
+    "id": "blog",
+    "name": "Blogging",
+    "headline": "Turn expertise into durable demand",
+    "strategy": "Build topic clusters with original proof, author details and useful internal links. Repurpose each article into platform-native posts. Review facts and use canonical URLs.",
+    "metric": "Qualified organic visits and assisted pipeline",
+    "status": "Headless page publishing",
+    "gate": "Included headless releases publish to your own site; external WordPress and other CMS adapters require connection work."
+  }
+]
